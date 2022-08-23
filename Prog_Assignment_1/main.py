@@ -14,7 +14,37 @@ def main():
 def table(function):
     results = data(function) #the results for each function using data()
     
-    #FIGURE OUT HOW TO DO THIS!
+    #following code handldes the printing of the tables
+    for x in range(0, len(results)):
+        if x == 0:
+            print(f"\n{results[x]}") #prints the header of the table first, which is results[0]
+        else:
+            for y in range(1,len(results[x])): #turns the boolean values in the lists into a printable form of 'T' and 'F'.
+                if results[x][y] == True:
+                    results[x][y] = "T"
+                else:
+                    results[x][y] = "F"
+            if x == 1: #for the first column, which is universally p, it creates each row of the table by creating a list of rows by iterating over the first set of results.
+                rows = []
+                for row in results[x]:
+                    rows.append(f"| {row} |")
+            else: #for the rest of the columns, it adds the data to the previously made rows.
+                for y in range(0,len(results[x])): #iterates over each of the columns
+                    space = ""
+                    for _ in range(0,len(results[x][0]) // 2): #using the variables made above, this defines the blank space surrounding each 'T' and 'F' because they are not the same. Does this by taking the length of the item in row 1 // 2 and adding " " to a space variable.
+                        space += " "
+                    if y == 0:
+                        rows[y] += f" {results[x][y]} |" #handles the create of the first row, which has different rules than the other rows because the blank space is always a length of 1.
+                    else: #the following accounts for each of the value rows, including defining the blank space to make the table look good
+                        if len(space) == 0:
+                            rows[y] += f" {results[x][y]} |" #handles when the space variable equals zero, which happens when the length of the column title equals 1.
+                        else:
+                            if len(results[x][0]) % 2 == 0: #when the column title has an even length, the space variable is slightly larger than needed, so we only have one space in the concatenated string rather than two.
+                                rows[y] += f" {space}{results[x][y]}{space}|"
+                            else:
+                                rows[y] += f" {space}{results[x][y]}{space} |"
+    for row in rows:
+        print(row)
 
 #Takes in a hardcoded function value, does math to determine the values for the truth table.
 def data(function):

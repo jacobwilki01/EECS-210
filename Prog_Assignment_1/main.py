@@ -122,9 +122,7 @@ def data(function):
 
         results.append(compare(results[4],results[5],"*",results[6])) #column for [(p + q) * (p -> r) * (q -> r)] as results[7]
 
-        results.append(compare(results[7],results[3],"->")) #[(p + q) * (p -> r) * (q -> r)] -> r as results[8]
-
-        results.append(compare(results[8],["T", True, True, True, True, True, True, True, True],"=")) #final column. Uses a list of all True to represent "T" in the equation.
+        results.append(compare(results[7],results[3],"->")) #[(p + q) * (p -> r) * (q -> r)] -> r as the final column!
 
     elif function == 5: #p <-> q = (p -> q) * (q -> p)
         results.append(["p", False, False, True, True]) #column for p as results[1]

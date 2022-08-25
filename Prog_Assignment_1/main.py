@@ -43,6 +43,8 @@ def table(function):
                                 rows[y] += f" {space}{results[x][y]}{space}|"
                             else:
                                 rows[y] += f" {space}{results[x][y]}{space} |"
+    
+    #following handles the priting of each tbale by just iterating over rows and print each row.
     for row in rows:
         print(row)
 
@@ -149,16 +151,17 @@ def negate(list):
             result.append(not item) #appends the opposite value for the rest in order to do negation
     return result #returns the final list to be used later
 
+#Handles the comparison between 2-3 lists. Takes in those lists, and a function that it uses to compare.
 def compare(list1,list2,function,list3=None):
-    result = []
-    result.append(name(list1,list2,list3,function))
+    result = [] #Blank list that is added to and returned.
+    result.append(name(list1,list2,list3,function)) #Adds the name to the result for the top row, calls the name() function to do so
 
     for x in range(0,len(list1)): #runs the comparison for each value in the first list. Does this by iterating over the length of the list, and calling on the specific index
         if x == 0:
             pass #skips the 0 index of each list as it is the name
         else:
             if function == "*": #runs the comparison code if the function is conjunction
-                if list3 == None:
+                if list3 == None: #Since this is the only case where it compares between three entities, it checks if list3 exists here and then does the relevant comparison.
                     result.append(list1[x] and list2[x])
                 else:
                     result.append(list1[x] and list2[x] and list3[x])

@@ -50,7 +50,7 @@ def table(function):
 def data(function):
     #Basic variables needed to make the code function. 'results' is the output. 'names' are the hardcoded names.
     results = []
-    names = ["== De Morgan's First Law ==", "== De Morgan's Second Law ==", "== First Associative Law ==", "== Second Associative Law ==", "== [(p + q) * (p -> r) * (p -> r)] -> r = T ==", "== p <-> q = (p -> q) * (q -> p) =="]
+    names = ["== De Morgan's First Law ==", "== De Morgan's Second Law ==", "== First Associative Law ==", "== Second Associative Law ==", "== [(p + q) * (p -> r) * (q -> r)] -> r = T ==", "== p <-> q = (p -> q) * (q -> p) =="]
     
     results.append(names[function]) #Assigns to results[0] the hardcoded name of the truth table, used later when printing.
 
@@ -108,7 +108,7 @@ def data(function):
 
         results.append(compare(results[6],results[7],"=")) #final column. just present to show that the Law is true!
 
-    elif function == 4: #[(p + q) * (p -> r) * (p -> r)] -> r = T
+    elif function == 4: #[(p + q) * (p -> r) * (q -> r)] -> r = T
         results.append(["p", False, False, False, False, True, True, True, True]) #column for p
         results.append(["q", False, False, True, True, False, False, True, True]) #column for q
         results.append(["r", False, True, False, True, False, True, False, True]) #column for r
@@ -116,12 +116,13 @@ def data(function):
         results.append(compare(results[1],results[2],"+")) #column for (p + q)
 
         results.append(compare(results[1],results[3],"->")) #column for (p -> r)
+        results.append(compare(results[2],results[3],"->")) #column for (q -> r)
 
-        results.append(compare(results[4],results[5],"*")) #column for (p + q) * (p -> r). Not sure why the instructions has '* (p -> r) * (p -> r)' as it's redundant, so I'm using the easier form.
+        results.append(compare(results[4],results[5],"*",results[6])) #column for [(p + q) * (p -> r) * (q -> r)]
 
-        results.append(compare(results[6],results[3],"->")) #[(p + q) * (p -> r)] -> r
+        results.append(compare(results[7],results[3],"->")) #[(p + q) * (p -> r) * (q -> r)] -> r
 
-        results.append(compare(results[7],["T", True, True, True, True, True, True, True, True],"=")) #final column. Uses a list of all True to represent "T" in the equation.
+        results.append(compare(results[8],["T", True, True, True, True, True, True, True, True],"=")) #final column. Uses a list of all True to represent "T" in the equation.
 
     elif function == 5: #p <-> q = (p -> q) * (q -> p)
         results.append(["p", False, False, True, True]) #column for p
@@ -148,19 +149,19 @@ def negate(list):
             result.append(not item) #appends the opposite value for the rest in order to do negation
     return result #returns the final list to be used later
 
-def compare(list1,list2,function):
+def compare(list1,list2,function,list3=None):
     result = []
-    if function != "=":
-        result.append(f"({list1[0]} {function} {list2[0]})") #creates the name, adds parantheses surrounding it.
-    else:
-        result.append(f"{list1[0]} {function} {list2[0]}") #creates the name, but without the parantheses because they are not necessary for equivalence.
-    
+    result.append(name(list1,list2,list3,function))
+
     for x in range(0,len(list1)): #runs the comparison for each value in the first list. Does this by iterating over the length of the list, and calling on the specific index
         if x == 0:
             pass #skips the 0 index of each list as it is the name
         else:
             if function == "*": #runs the comparison code if the function is conjunction
-                result.append(list1[x] and list2[x])
+                if list3 == None:
+                    result.append(list1[x] and list2[x])
+                else:
+                    result.append(list1[x] and list2[x] and list3[x])
             elif function == "+": #runs the comparison code if the function is disjunction
                 result.append(list1[x] or list2[x])
             elif function == "->": #runs the comparison code if the function is implication, does so by returning True for every instance that isn't 'True then False'.
@@ -180,6 +181,31 @@ def compare(list1,list2,function):
                     result.append(False)
     
     return result #returns the final list to be used later
+
+#The following function creates the name of the column and sets the relevant amount of parantheses.
+def name(list1,list2,list3,function):
+    #This one checks the name of the first input, if it not a single variable it adds parantheses
+    if len(list1[0]) > 1:
+        part1 = f"({list1[0]})"
+    else:
+        part1 = f"{list1[0]}"
+
+    #This one checks the name of the second input, if it not a single variable it adds parantheses
+    if len(list2[0]) > 1:
+        part2 = f"({list2[0]})"
+    else:
+        part2 = f"{list2[0]}"
+
+    #This checks if list3 exists, because it only exists in one instance. If it doesn't, then it returns the name between part1 and part2. If it exists, it does the convention for list3 and returns the name for all three!
+    if list3 != None:
+        #This one checks the name of the third input, if it not a single variable it adds parantheses
+        if len(list3[0]) > 1:
+            part3 = f"({list3[0]})"
+        else:
+            part3 = f"{list3[0]}"
+        return f"{part1} {function} {part2} {function} {part3}"
+    else:
+        return f"{part1} {function} {part2}"
 
 if __name__ == "__main__": #basic python terminology to start the program and call main() if and only if it is the origin program
     main()

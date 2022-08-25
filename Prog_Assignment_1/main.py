@@ -57,85 +57,85 @@ def data(function):
     results.append(names[function]) #Assigns to results[0] the hardcoded name of the truth table, used later when printing.
 
     if function == 0: #code for De Morgan's First Law. -(p * q) = -p + -q.
-        results.append(["p", False, False, True, True]) #column for p
-        results.append(["q", False, True, False, True]) #column for q
+        results.append(["p", False, False, True, True]) #column for p as results[1]
+        results.append(["q", False, True, False, True]) #column for q as results[2]
 
-        results.append(negate(results[1])) #column for -p
-        results.append(negate(results[2])) #column for -q
+        results.append(negate(results[1])) #column for -p as results[3]
+        results.append(negate(results[2])) #column for -q as results[4]
 
-        results.append(compare(results[1],results[2],"*")) #column for (p * q)
-        results.append(negate(results[5])) #column for -(p * q)
+        results.append(compare(results[1],results[2],"*")) #column for (p * q) as results[5]
+        results.append(negate(results[5])) #column for -(p * q) as results[6]
 
-        results.append(compare(results[3],results[4],"+")) #column for -p + -q
+        results.append(compare(results[3],results[4],"+")) #column for -p + -q as results[7]
 
         results.append(compare(results[6],results[7],"=")) #final column. just present to show that the Law is true!
     
     elif function == 1: #code for De Morgan's Second Law. -(p + q) = -p * -q
-        results.append(["p", False, False, True, True]) #column for p
-        results.append(["q", False, True, False, True]) #column for q
+        results.append(["p", False, False, True, True]) #column for p as results[1]
+        results.append(["q", False, True, False, True]) #column for q as results[2]
 
-        results.append(negate(results[1])) #column for -p
-        results.append(negate(results[2])) #column for -q
+        results.append(negate(results[1])) #column for -p as results[3]
+        results.append(negate(results[2])) #column for -q as results[4]
 
-        results.append(compare(results[1],results[2],"+")) #column for (p + q)
-        results.append(negate(results[5])) #column for -(p + q)
+        results.append(compare(results[1],results[2],"+")) #column for (p + q) as results[5]
+        results.append(negate(results[5])) #column for -(p + q) as results[6]
 
-        results.append(compare(results[3],results[4],"*")) #column for -p * -q
+        results.append(compare(results[3],results[4],"*")) #column for -p * -q as results[7]
 
         results.append(compare(results[6],results[7],"=")) #final column. just present to show that the Law is true!
     
     elif function == 2: #code for the First Associative Law. (p * q) * r = p * (q * r)
-        results.append(["p", False, False, False, False, True, True, True, True]) #column for p
-        results.append(["q", False, False, True, True, False, False, True, True]) #column for q
-        results.append(["r", False, True, False, True, False, True, False, True]) #column for r
+        results.append(["p", False, False, False, False, True, True, True, True]) #column for p as results[1]
+        results.append(["q", False, False, True, True, False, False, True, True]) #column for q as results[2]
+        results.append(["r", False, True, False, True, False, True, False, True]) #column for r as results[3]
 
-        results.append(compare(results[1],results[2],"*")) #column for (p * q)
-        results.append(compare(results[2],results[3],"*")) #column for (q * r)
+        results.append(compare(results[1],results[2],"*")) #column for (p * q) as results[4]
+        results.append(compare(results[2],results[3],"*")) #column for (q * r) as results[5]
 
-        results.append(compare(results[4],results[3],"*")) #column for (p * q) * r
-        results.append(compare(results[1],results[5],"*")) #column for p * (q * r)
+        results.append(compare(results[4],results[3],"*")) #column for (p * q) * r as results[6]
+        results.append(compare(results[1],results[5],"*")) #column for p * (q * r) as results[7]
 
         results.append(compare(results[6],results[7],"=")) #final column. just present to show that the Law is true!
 
     elif function == 3: #code for the Second Associative Law. (p + q) + r = p + (q + r)
-        results.append(["p", False, False, False, False, True, True, True, True]) #column for p
-        results.append(["q", False, False, True, True, False, False, True, True]) #column for q
-        results.append(["r", False, True, False, True, False, True, False, True]) #column for r
+        results.append(["p", False, False, False, False, True, True, True, True]) #column for p as results[1]
+        results.append(["q", False, False, True, True, False, False, True, True]) #column for q as results[2]
+        results.append(["r", False, True, False, True, False, True, False, True]) #column for r as results[3]
 
-        results.append(compare(results[1],results[2],"+")) #column for (p + q)
-        results.append(compare(results[2],results[3],"+")) #column for (q + r)
+        results.append(compare(results[1],results[2],"+")) #column for (p + q) as results[4]
+        results.append(compare(results[2],results[3],"+")) #column for (q + r) as results[5]
 
-        results.append(compare(results[4],results[3],"+")) #column for (p + q) + r
-        results.append(compare(results[1],results[5],"+")) #column for p + (q + r)
+        results.append(compare(results[4],results[3],"+")) #column for (p + q) + r as results[6]
+        results.append(compare(results[1],results[5],"+")) #column for p + (q + r) as results[7]
 
         results.append(compare(results[6],results[7],"=")) #final column. just present to show that the Law is true!
 
     elif function == 4: #[(p + q) * (p -> r) * (q -> r)] -> r = T
-        results.append(["p", False, False, False, False, True, True, True, True]) #column for p
-        results.append(["q", False, False, True, True, False, False, True, True]) #column for q
-        results.append(["r", False, True, False, True, False, True, False, True]) #column for r
+        results.append(["p", False, False, False, False, True, True, True, True]) #column for p as results[1]
+        results.append(["q", False, False, True, True, False, False, True, True]) #column for q as results[2]
+        results.append(["r", False, True, False, True, False, True, False, True]) #column for r as results[3]
 
-        results.append(compare(results[1],results[2],"+")) #column for (p + q)
+        results.append(compare(results[1],results[2],"+")) #column for (p + q) as results[4]
 
-        results.append(compare(results[1],results[3],"->")) #column for (p -> r)
-        results.append(compare(results[2],results[3],"->")) #column for (q -> r)
+        results.append(compare(results[1],results[3],"->")) #column for (p -> r) as results[5]
+        results.append(compare(results[2],results[3],"->")) #column for (q -> r) as results[6]
 
-        results.append(compare(results[4],results[5],"*",results[6])) #column for [(p + q) * (p -> r) * (q -> r)]
+        results.append(compare(results[4],results[5],"*",results[6])) #column for [(p + q) * (p -> r) * (q -> r)] as results[7]
 
-        results.append(compare(results[7],results[3],"->")) #[(p + q) * (p -> r) * (q -> r)] -> r
+        results.append(compare(results[7],results[3],"->")) #[(p + q) * (p -> r) * (q -> r)] -> r as results[8]
 
         results.append(compare(results[8],["T", True, True, True, True, True, True, True, True],"=")) #final column. Uses a list of all True to represent "T" in the equation.
 
     elif function == 5: #p <-> q = (p -> q) * (q -> p)
-        results.append(["p", False, False, True, True]) #column for p
-        results.append(["q", False, True, False, True]) #column for q
+        results.append(["p", False, False, True, True]) #column for p as results[1]
+        results.append(["q", False, True, False, True]) #column for q as results[2]
 
-        results.append(compare(results[1],results[2],"<->")) #column for p <-> q
+        results.append(compare(results[1],results[2],"<->")) #column for p <-> q as results[3]
 
-        results.append(compare(results[1],results[2],"->")) #column for (p -> q)
-        results.append(compare(results[2],results[1],"->")) #column for (q -> p)
+        results.append(compare(results[1],results[2],"->")) #column for (p -> q) as results[4]
+        results.append(compare(results[2],results[1],"->")) #column for (q -> p) as results[5]
 
-        results.append(compare(results[4],results[5],"*")) #column for (p -> q) * (q -> p)
+        results.append(compare(results[4],results[5],"*")) #column for (p -> q) * (q -> p) as results[6]
 
         results.append(compare(results[3],results[6],"=")) #final column. Should be all Trues if I didn't mess up!
 

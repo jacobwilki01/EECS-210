@@ -140,14 +140,14 @@ def proof_demo(mode1,mode2,function,values):
             return f"there exists no value where x is not {function}"
         elif mode2 == "univ":
             for val in range(0,len(values)):
-                if values[val] == False:
-                    return f"{val} is not {function}"
+                if values[val] == True:
+                    return f"{val} is {function}"
             return f"all values in the range satisfy x {function}"
     else:
         if mode2 == "exis":
             for val in range(0,len(values)):
-                if values[val] == False:
-                    return f"{val} is not {function}"
+                if values[val] == True:
+                    return f"{val} is {function}"
             return f"there exists no value where x is not {function}"
         elif mode2 == "univ":
             for val in range(0,len(values)):
@@ -187,7 +187,7 @@ def one_d():
     
     final = disjunction(result1,result2)
     
-    return f"1d.) {universal(final)} because {proof_large('exis','or','less than 2','greater than 7',final)}."
+    return f"1d.) {universal(final)} because {proof_large('univ','or','less than 2','greater than 7',final)}."
 
 def one_e(): #x<5
     result = []
@@ -200,7 +200,15 @@ def one_e(): #x<5
     return f"1e.) De Morgan's Law holds {negate == equiv} because both the negation is {negate} and the equivalent is {equiv}. The negation is {negate} because {proof_demo('negate','exis','less than 5',result)} and the equivalent is {equiv} because {proof_demo('equiv','univ','less than 5',result)}."
 
 def one_f():
-    pass 
+    result = []
+    for x in range(0,11):
+        result.append(compare(x,5))
+    
+    negate = negation(universal(result))
+    equiv = existential(negation(result))
+
+    return f"1f.) De Morgan's Law holds {negate == equiv} because both the negation is {negate} and the equivalent is {equiv}. The negation is {negate} because {proof_demo('negate','univ','less than 5',result)} and the equivalent is {equiv} because {proof_demo('equiv','exis','less than 5',result)}."
+
 
 def two_a():
     result = []

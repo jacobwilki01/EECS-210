@@ -131,7 +131,7 @@ def proof_nested(mode_x,mode_y,values):
         if mode_x == "exis" and mode_y == "exis":
             return f"x * y does equal 0 when x is {return_x} and y is 0. As well as when y is {return_y} and x is 0"
         elif mode_x == "univ" and mode_y == "univ":
-            return f"x * y does not equal 0 when x is {return_x} and y is {return_y}"
+            return f"x * y does not equal 0 when x is {return_x} and y is not zero. As well as when x is not zero and y is {return_y}"
         else:
             if mode_x == "univ":
                 return f"x * y does not equal 0 when x is {return_x} and y is not 0"

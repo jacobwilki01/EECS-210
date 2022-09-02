@@ -33,25 +33,18 @@ def disjunction(list1,list2):
     
     return result
 
-def conjunction(list1,list2):
-    result = []
-    for x in range(0,len(list1)):
-        if not (list1[x] and list2[x]):
-            result.append(False)
-        else:
-            result.append(True)
-    
-    return result
+def negation(input):
+    if input == True or input == False:
+        return not input
+    else:
+        result = []
+        for item in input:
+            if item == True:
+                result.append(False)
+            else:
+                result.append(True)
+        return result
 
-def negation(list):
-    result = []
-    for item in list:
-        if item == True:
-            result.append(False)
-        else:
-            result.append(True)
-    
-    return result
 
 def compare(val1,val2):
     if val1 < val2:
@@ -138,6 +131,30 @@ def proof_nested(mode_x,mode_y,values):
             elif mode_y == "univ":
                 return f"x * y does not equal 0 when y is {return_y} and x is not 0"
 
+def proof_demo(mode1,mode2,function,values):
+    if mode1 == "negate":
+        if mode2 == "exis":
+            for val in range(0,len(values)):
+                if values[val] == False:
+                    return f"{val} is not {function}"
+            return f"there exists no value where x is not {function}"
+        elif mode2 == "univ":
+            for val in range(0,len(values)):
+                if values[val] == False:
+                    return f"{val} is not {function}"
+            return f"all values in the range satisfy x {function}"
+    else:
+        if mode2 == "exis":
+            for val in range(0,len(values)):
+                if values[val] == False:
+                    return f"{val} is not {function}"
+            return f"there exists no value where x is not {function}"
+        elif mode2 == "univ":
+            for val in range(0,len(values)):
+                if values[val] == False:
+                    return f"{val} is not {function}"
+            return f"all values in the range satisfy x {function}"
+
 def one_a():
     result = []
     for x in range(0,11):
@@ -172,8 +189,15 @@ def one_d():
     
     return f"1d.) {universal(final)} because {proof_large('exis','or','less than 2','greater than 7',final)}."
 
-def one_e():
-    pass
+def one_e(): #x<5
+    result = []
+    for x in range(0,11):
+        result.append(compare(x,5))
+    
+    negate = negation(existential(result))
+    equiv = universal(negation(result))
+
+    return f"1e.) De Morgan's Law holds {negate == equiv} because both the negation is {negate} and the equivalent is {equiv}. The negation is {negate} because {proof_demo('negate','exis','less than 5',result)} and the equivalent is {equiv} because {proof_demo('equiv','univ','less than 5',result)}."
 
 def one_f():
     pass 

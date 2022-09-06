@@ -67,67 +67,69 @@ def main():
     for letter in two:
         print(letter)
 
-#Function for universal. Just iterataes over a list of truth values and determines if they are all true. Returns a boolean based on that iteration.
+#Function for universal.
 def universal(list):
-    for value in list:
-        if value == False:
+    for value in list: #iterates over the values of an inputted list.
+        if value == False: #if one False exists, the function returns False.
             return False
-    return True
+    return True #if no Falses exist, the function returns True
 
-#Function for existential. Just iterataes over a list of truth values and determines if they are all true. Returns a boolean based on that iteration.
+#Function for existential.
 def existential(list):
-    for value in list:
-        if value == True:
+    for value in list: #iterates over the values of an inputted list.
+        if value == True: #if one True exists, the function returns True.
             return True
-    return False
+    return False #if no Trues exist, the function returns False.
 
-#Function for disjunction. Just iterataes over two lists of truth values and determines if either one or the other is true. Returns a list of truth values based on that iteration.
+#Function for disjunction.
 def disjunction(list1,list2):
-    result = []
-    for x in range(0,len(list1)):
-        if not (list1[x] or list2[x]):
+    result = [] #creates a blank list that will be appended to with results.
+    for x in range(0,len(list1)): #iterates over the indexes of both lists. Iterates over the indexes rather than the items in the list so we can also easily access list2.
+        if not (list1[x] or list2[x]): #compares the value in each index of list1 and list2 using or. If neither is true, appends a False to the list.
             result.append(False)
         else:
-            result.append(True)
+            result.append(True) #if one of them is True, it appends a True.
     
-    return result
+    return result #Once iteration is complete, it returns the result list.
 
+#Function for negation.
 def negation(input):
-    if input == True or input == False:
-        return not input
-    else:
-        result = []
-        for item in input:
-            if item == True:
-                result.append(False)
-            else:
-                result.append(True)
-        return result
+    if input == True or input == False: #checks if the input is either a boolean or list.
+        return not input #if it's a boolean, it returns the opposite of the input.
+    else: #if it's a list, it does the following code.
+        result = [] #creates a new, blank list, to append results to.
+        for item in input: #iterates over the input list, and appends the opposite of each item to the result list.
+            result.append(not item)
+        return result #once the iteration is finished, it returns the result list.
 
+#Function for comparison.
 def compare(val1,val2):
-    if val1 < val2:
+    if val1 < val2: #checks if the first value is less than the second, returns a boolean representing the result.
         return True
     else:
         return False
 
+#Function for checking if one or more of the values are zero.
 def if_zero(val1,val2):
-    if val1 * val2 == 0:
+    if val1 * val2 == 0: #checks if either of the values are zero by multiplying them together and seeing if the product equals 0, returns a boolean representing the result.
         return True
     else:
         return False
 
+#Function for proving simple comparisons.
 def proof(mode,function,values):
-    if mode == "exis":
-        for val in range(0,len(values)):
-            if values[val] == True:
-                return f"{val} {function}"
-        return f"there exists no value where x {function}"
-    elif mode == "univ":
-        for val in range(0,len(values)):
-            if values[val] == False:
-                return f"{val} is not {function}"
-        return f"all values in the range satisfy x {function}"
+    if mode == "exis": #checks 'mode' to see if we are in existential mode. runs the following if True.
+        for val in range(0,len(values)): #iterates over the indexes of the inputted values.
+            if values[val] == True: #checks if at least one of them is True.
+                return f"{val} {function}" #if one of them is true, it returns a string explaining why. Ex: "0 is less than 2"
+        return f"there exists no value where x {function}" #if no items are true, it returns a string explaining why.
+    elif mode == "univ": #checks 'mode' to see if we are in universal mode. runs the following if True.
+        for val in range(0,len(values)): #iterates over the indexes of the inputted values.
+            if values[val] == False: #checks if at least one of them is False.
+                return f"{val} is not {function}" #if one of them is False, it returns a string explaining why. Ex: "2 is not less than 2"
+        return f"all values in the range satisfy x {function}" #if they are all True, it returns a string explaining that.
 
+#Function for proving comparisons between two functions.
 def proof_large(mode,comp,func1,func2,values):
     if mode == "exis":
         for val in range(0,len(values)):

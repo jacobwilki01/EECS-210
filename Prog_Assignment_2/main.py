@@ -131,17 +131,18 @@ def proof(mode,function,values):
 
 #Function for proving comparisons between two functions.
 def proof_large(mode,comp,func1,func2,values):
-    if mode == "exis":
-        for val in range(0,len(values)):
-            if values[val] == True:
-                return f"{val} is either {func1} {comp} {func2}"
-        return f"there exists no value where x {func1} {comp} {func2}"
-    elif mode == "univ":
-        for val in range(0,len(values)):
-            if values[val] == False:
-                return f"{val} is not {func1} {comp} {func2}"
-        return f"all values in the range satisfy x {func1} {comp} {func2}"
+    if mode == "exis": #checks 'mode' to see if we are in existential mode. runs the following if True.
+        for val in range(0,len(values)): #iterates over the indexes of the inputted values.
+            if values[val] == True: #checks if at least one of them is True.
+                return f"{val} is either {func1} {comp} {func2}" #if one of them is true, it returns a string explaining why. Ex: "0 is either less than 2 or greater than 5"
+        return f"there exists no value where x {func1} {comp} {func2}" #if no items are true, it returns a string explaining why.
+    elif mode == "univ": #checks 'mode' to see if we are in universal mode. runs the following if True.
+        for val in range(0,len(values)): #iterates over the indexes of the inputted values.
+            if values[val] == False: #checks if at least one of them is False.
+                return f"{val} is not {func1} {comp} {func2}" #if one of them is False, it returns a string explaining why. Ex: "2 is not less than 2 or greater than 5"
+        return f"all values in the range satisfy x {func1} {comp} {func2}" #if they are all True, it returns a string explaining that.
 
+#Function for proving a nested quantifier. Extremely long, so bear with me...
 def proof_nested(mode_x,mode_y,values):
     values_x, values_y = [], []
 
@@ -257,7 +258,7 @@ def one_e(): #x<5
     negate = negation(existential(result))
     equiv = universal(negation(result))
 
-    return f"1e.) De Morgan's Law holds {negate == equiv} because both the negation is {negate} and the equivalent is {equiv}. The negation is {negate} because {proof_demo('negate','exis','less than 5',result)} and the equivalent is {equiv} because {proof_demo('equiv','univ','less than 5',result)}."
+    return f"1e.) De Morgan's Law holds {negate == equiv} because both -∃xP(x) is {negate} and ∀x(-P(x)) is {equiv}. -∃xP(x) is {negate} because {proof_demo('negate','exis','less than 5',result)} and ∀x(-P(x)) is {equiv} because {proof_demo('equiv','univ','less than 5',result)}."
 
 def one_f():
     result = []
@@ -267,7 +268,7 @@ def one_f():
     negate = negation(universal(result))
     equiv = existential(negation(result))
 
-    return f"1f.) De Morgan's Law holds {negate == equiv} because both the negation is {negate} and the equivalent is {equiv}. The negation is {negate} because {proof_demo('negate','univ','less than 5',result)} and the equivalent is {equiv} because {proof_demo('equiv','exis','less than 5',result)}."
+    return f"1f.) De Morgan's Law holds {negate == equiv} because both -∀xP(x) is {negate} and ∃x(-P(x)) is {equiv}. -∀xP(x) is {negate} because {proof_demo('negate','univ','less than 5',result)} and ∃x(-P(x)) is {equiv} because {proof_demo('equiv','exis','less than 5',result)}."
 
 
 def two_a():

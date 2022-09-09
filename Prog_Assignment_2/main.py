@@ -11,6 +11,7 @@ Preconditions and Postconditions:
         - Runs at the start of the code. 
         - Calls each of the relevant question functions.
         - Returns nothing.
+        - Prints all of the results.
     - equation functions:
         - universal(list)
             - takes in a list of truth values
@@ -144,44 +145,48 @@ def proof_large(mode,comp,func1,func2,values):
 
 #Function for proving a nested quantifier. Extremely long, so bear with me...
 def proof_nested(mode_x,mode_y,values):
-    values_x, values_y = [], []
+    values_x, values_y = [], [] #creates blank lists used to determine all values of x and y.
 
-    if mode_x == "exis" and mode_y == "exis":
-        for val in range(0,len(values)):
-            if values[val] == True:
-                values_x.append(val // 11)
-                values_y.append(val - (11 * (val // 11)))
-    elif mode_x == "univ" and mode_y == "univ":
-        for val in range(0,len(values)):
-            if values[val] == False:
-                values_x.append(val // 11)
-                values_y.append(val - (11 * (val // 11)))
-    elif mode_x != mode_y:
-        if mode_x == "univ":
-            for val in range(0,len(values)):
-                if values[val] == False:
-                    values_x.append(val // 11)
-                elif values[val] == True:
-                    values_y.append(val - (11 * (val // 11)))
-        elif mode_y == "univ":
-            for val in range(0,len(values)):
-                if values[val] == False:
-                    values_y.append(val // 11)
-                elif values[val] == True:
-                    values_x.append(val - (11 * (val // 11)))
+    if mode_x == "exis" and mode_y == "exis": #runs the following code if both x and y are existential
+        for val in range(0,len(values)): #iterates over the indexes of the inputted values list
+            if values[val] == True: #if any of the values in values are true, it runs the following code
+                values_x.append(val // 11) #appends simply the index divided by 11, without the remainder, representing which x value it is on
+                values_y.append(val - (11 * (val // 11))) #appends a mini math equation to determine the subsequent y value, which is the difference between val and the x value * 11.
+    elif mode_x == "univ" and mode_y == "univ": #runs the following code if both x and y are universal
+        for val in range(0,len(values)): #iterates over the indexes of the inputted values.
+            if values[val] == False: #if any of the values are False, it runs the following code
+                values_x.append(val // 11) #appends simply the index divided by 11, without the remainder, representing which x value it is on
+                values_y.append(val - (11 * (val // 11))) #appends a mini math equation to determine the subsequent y value, which is the difference between val and the x value * 11.
+    elif mode_x != mode_y: #if the modes are different, it runs the following code.
+        if mode_x == "univ": #this runs if x is universal but y is existential
+            for val in range(0,len(values)): #iterates over the indexes in values
+                if values[val] == False: #if it's False, runs the following
+                    values_x.append(val // 11) #appends the relevant x value to values_x
+                elif values[val] == True: #if any are True, runs the following
+                    values_y.append(val - (11 * (val // 11))) #appends the relevant y value to values_y
+        elif mode_y == "univ": #this runs if y is universal but x is existential
+            for val in range(0,len(values)): #iterates over the indexes in values
+                if values[val] == False: #if any are False, runs the following
+                    values_y.append(val // 11) #appends the relevant values to values_y
+                elif values[val] == True: #if any are True, runs the following
+                    values_x.append(val - (11 * (val // 11))) #appends the reelvant values to values_x
 
-    if len(values_x) == 0 and len(values_y) == 0:
-        return f"all values in the range satisfy x * y = 0"
-    else:
-        sorted_x, sorted_y = [], []
-        for item in sorted(set(values_x)):
+    #At this point in the code, no matter what modes were activated, we have two lists filled  with numerous sets of numbers, including duplicates
+
+    if len(values_x) == 0 and len(values_y) == 0: #this checks if any values have been appended, which can happen if both are universal or existential.
+        return f"all values in the range satisfy x * y = 0" #if there are not any values, returns this string.
+    else: #if there are values, it runs the following
+        sorted_x, sorted_y = [], [] #creates new lists to manipulate later
+        for item in sorted(set(values_x)): #iterates over a sorted set of values_x, appends them to the new sorted_x list
             sorted_x.append(str(item))
-        for item in sorted(set(values_y)):
+        for item in sorted(set(values_y)): #iterates over a sorted set of values_y, appends them to the new sorted_y list
             sorted_y.append(str(item))
-            
+        
+        #takes the now sorted lists, and turns them into usable strings to return with the delimiter " ,"
         delimiter = ", "
         return_x, return_y = delimiter.join(sorted_x), delimiter.join(sorted_y)
         
+        #Determines the mode once again, and returns a string to prove the equation with the return_x and return_y values determined above.
         if mode_x == "exis" and mode_y == "exis":
             return f"x * y does equal 0 when x is {return_x} and y is 0. As well as when y is {return_y} and x is 0"
         elif mode_x == "univ" and mode_y == "univ":
@@ -192,116 +197,135 @@ def proof_nested(mode_x,mode_y,values):
             elif mode_y == "univ":
                 return f"x * y does not equal 0 when y is {return_y} and x is not 0"
 
+#Proof function for De Morgan's Law. 
 def proof_demo(mode1,mode2,function,values):
+    #Code is mostly the same as the other proof functions, with the exception of determining an extra mode value, which corresponds to which side of the equation it is (the "negation" and the "equivalent")
+    #After it determines which side of the equation it is, it runs the exact same code as proof().
     if mode1 == "negate":
-        if mode2 == "exis":
-            for val in range(0,len(values)):
-                if values[val] == False:
+        if mode2 == "exis": #runs the following if mode2 is existential
+            for val in range(0,len(values)): #iterates over the indexes in values
+                if values[val] == False: #if any value in values is False, returns the following
                     return f"{val} is not {function}"
-            return f"there exists no value where x is not {function}"
-        elif mode2 == "univ":
-            for val in range(0,len(values)):
-                if values[val] == True:
+            return f"there exists no value where x is not {function}" #if no values are False, it returns this
+        elif mode2 == "univ": #runs the following if mode2 is universal
+            for val in range(0,len(values)): #iterates over the indexes in values
+                if values[val] == True: #if any value is True, returns the following
                     return f"{val} is {function}"
-            return f"all values in the range satisfy x {function}"
+            return f"all values in the range satisfy x {function}" #if no values are True, it returns this
     else:
-        if mode2 == "exis":
-            for val in range(0,len(values)):
-                if values[val] == True:
+        if mode2 == "exis": #runs the following if mode2 is existential
+            for val in range(0,len(values)):#iterates over the indexes in values
+                if values[val] == True: #if any value is True, returns the following
                     return f"{val} is {function}"
-            return f"there exists no value where x is not {function}"
+            return f"there exists no value where x is not {function}" #if no values are True, it returns this
         elif mode2 == "univ":
-            for val in range(0,len(values)):
-                if values[val] == False:
+            for val in range(0,len(values)):#iterates over the indexes in values
+                if values[val] == False: #if any value is False, returns the following
                     return f"{val} is not {function}"
-            return f"all values in the range satisfy x {function}"
+            return f"all values in the range satisfy x {function}" #if no values are False, it returns this
 
+#code for running question 1a.)
 def one_a():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 and uses the compare function to compare them to 2
         result.append(compare(x,2))
     
-    return f"1a.) {existential(result)} because {proof('exis','less than 2',result)}."
+    return f"1a.) {existential(result)} because {proof('exis','less than 2',result)}." #uses the previous functions to return a final string that prints in main()
 
+#code for running 1b.)
 def one_b():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 and uses the compare function to compare them to 2
         result.append(compare(x,2))
 
-    return f"1b.) {universal(result)} because {proof('univ','less than 2',result)}."
+    return f"1b.) {universal(result)} because {proof('univ','less than 2',result)}." #uses the previous functions to return a final string that prints in main()
 
+#code for running 1c.)
 def one_c():
-    result1,result2 = [],[]
-    for x in range(0,11):
+    result1,result2 = [],[] #creates two blank lists for determining the values
+    for x in range(0,11): #iterates over numbers 0-10 and uses the compare function to compare them to 2 and 7
         result1.append(compare(x,2))
         result2.append(compare(7,x))
     
+    #creates a variable that refers to the disjunction function
     final = disjunction(result1,result2)
     
-    return f"1c.) {existential(final)} because {proof_large('exis','or','less than 2','greater than 7',final)}."
+    return f"1c.) {existential(final)} because {proof_large('exis','or','less than 2','greater than 7',final)}." #uses the previous functions to return a final string that prints in main()
 
+#code for running 1d.)
 def one_d():
-    result1,result2 = [],[]
-    for x in range(0,11):
+    result1,result2 = [],[] #creates two blank lists for determining the values
+    for x in range(0,11): #iterates over numbers 0-10 and uses the compare function to compare them to 2 and 7
         result1.append(compare(x,2))
         result2.append(compare(7,x))
     
+    #creates a variable that refers to the disjunction function
     final = disjunction(result1,result2)
     
-    return f"1d.) {universal(final)} because {proof_large('univ','or','less than 2','greater than 7',final)}."
+    return f"1d.) {universal(final)} because {proof_large('univ','or','less than 2','greater than 7',final)}." #uses the previous functions to return a final string that prints in main()
 
-def one_e(): #x<5
-    result = []
+#code for running 1e.)
+def one_e():
+    result = [] #creates a blank list to determine the values
     for x in range(0,11):
         result.append(compare(x,5))
     
+    #creates two vairables that refer to either side of the equation
     negate = negation(existential(result))
     equiv = universal(negation(result))
 
+    #uses the previous functions to return a final string that prints in main()
     return f"1e.) De Morgan's Law holds {negate == equiv} because both -∃xP(x) is {negate} and ∀x(-P(x)) is {equiv}. -∃xP(x) is {negate} because {proof_demo('negate','exis','less than 5',result)} and ∀x(-P(x)) is {equiv} because {proof_demo('equiv','univ','less than 5',result)}."
 
+#code for running 1f.)
 def one_f():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 and uses the compare function to compare them to 5
         result.append(compare(x,5))
     
+    #creates two vairables that refer to either side of the equation
     negate = negation(universal(result))
     equiv = existential(negation(result))
 
+    #uses the previous functions to return a final string that prints in main()
     return f"1f.) De Morgan's Law holds {negate == equiv} because both -∀xP(x) is {negate} and ∃x(-P(x)) is {equiv}. -∀xP(x) is {negate} because {proof_demo('negate','univ','less than 5',result)} and ∃x(-P(x)) is {equiv} because {proof_demo('equiv','exis','less than 5',result)}."
 
-
+#code for running 2a.)
 def two_a():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 two times for x and y, and determines if either is zero using if_zero()
         for y in range(0,11):
             result.append(if_zero(x,y))
 
-    return f"2a.) {universal(result)} because {proof_nested('univ','univ',result)}."
+    return f"2a.) {universal(result)} because {proof_nested('univ','univ',result)}." #uses the previous functions to return a final string that prints in main()
 
+#code for running 2b.)
 def two_b():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 two times for x and y, and determines if either is zero using if_zero()
         for y in range(0,11):
             result.append(if_zero(x,y))
 
-    return f"2b.) {universal(result)} because {proof_nested('univ','exis',result)}."
+    return f"2b.) {universal(result)} because {proof_nested('univ','exis',result)}." #uses the previous functions to return a final string that prints in main()
 
+#code for running 2c.)
 def two_c():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 two times for x and y, and determines if either is zero using if_zero()
         for y in range(0,11):
             result.append(if_zero(x,y))
 
-    return f"2c.) {universal(result)} because {proof_nested('exis','univ',result)}."
+    return f"2c.) {universal(result)} because {proof_nested('exis','univ',result)}." #uses the previous functions to return a final string that prints in main()
 
+#code for running 2d.)
 def two_d():
-    result = []
-    for x in range(0,11):
+    result = [] #creates a blank list to determine the values
+    for x in range(0,11): #iterates over numbers 0-10 two times for x and y, and determines if either is zero using if_zero()
         for y in range(0,11):
             result.append(if_zero(x,y))
 
-    return f"2d.) {existential(result)} because {proof_nested('exis','exis',result)}."
+    return f"2d.) {existential(result)} because {proof_nested('exis','exis',result)}." #uses the previous functions to return a final string that prints in main()
 
+#basic python code to run main()
 if __name__ == "__main__":
     main()

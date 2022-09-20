@@ -20,6 +20,7 @@ def union(rel1,rel2):
     for x in rel1:
         for y in rel2:
             result.append(x)
+            result.append(y)
     
     return f"{sorted(set(result))}"
 

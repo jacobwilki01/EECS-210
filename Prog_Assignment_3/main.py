@@ -4,9 +4,16 @@ from tkinter import S
 
 
 def main():
-    questions = [one(),two(),three(),four()]
-    for question in questions:
-        question
+    r1, r2 = [(1,1),(2,2),(3,3)], [(1,1),(1,2),(1,3),(1,4)]
+    one = [one_a,one_b,one_c,one_d]
+    for i in one:
+        print(f"{i(r1,r2)}")
+
+    r, s = [(1,1),(1,4),(2,3),(3,1),(3,4)], [(1,0),(2,0),(3,1),(3,2),(4,1)]
+    print(f"{two(r,s)}")
+    print(f"{three(r)}")
+
+    #Insert Code for Question 4.
 
 def union(rel1,rel2):
     result = []
@@ -14,7 +21,7 @@ def union(rel1,rel2):
         for y in rel2:
             result.append(x)
     
-    return f"R1 ∪ R2 = {sorted(set(result))}"
+    return f"{sorted(set(result))}"
 
 def intersect(rel1,rel2):
     result = []
@@ -23,7 +30,7 @@ def intersect(rel1,rel2):
             if x == y:
                 result.append(x)
     
-    return f"R1 ∩ R2 = {result}"
+    return f"{result}"
 
 def diff(rel1,rel2):
     result = []
@@ -35,7 +42,7 @@ def diff(rel1,rel2):
             if x == y:
                 result.remove(x)
     
-    return f"R1 − R2 = {result}"
+    return f"{result}"
 
 def compose(rel1,rel2):
     result = []
@@ -46,26 +53,23 @@ def compose(rel1,rel2):
 
     return f"{result}"
 
-def one():
-    r1, r2 = [(1,1),(2,2),(3,3)], [(1,1),(1,2),(1,3),(1,4)]
-    mode, letter = [union,intersect,diff], ['a','b','c']
-    for x in range(0,len(letter)):
-        print(f"1{letter[x]}.) {mode[x](r1,r2)}.")
-    
-    print(f"1d.) {diff(r2,r1)}")
+def one_a(r1,r2):
+    return f"1a.) R1 ∪ R2 = {union(r1,r2)}."
 
-def two():
-    r, s = [(1,1),(1,4),(2,3),(3,1),(3,4)], [(1,0),(2,0),(3,1),(3,2),(4,1)]
+def one_b(r1,r2):
+    return f"1b.) R1 ∩ R2 = {intersect(r1,r2)}."
 
-    print(f"2.) S ◦ R = {compose(r,s)}")
+def one_c(r1,r2):
+    return f"1c.) R1 − R2 = {diff(r1,r2)}."
 
-def three():
-    r = [(1,1),(1,4),(2,3),(3,1),(3,4)]
+def one_d(r1,r2):
+    return f"1d.) R2 − R1 = {diff(r2,r1)}."
 
-    print(f"3.) R^2 = {compose(r,r)}")
+def two(r,s):
+    return f"2.)  S ◦ R = {compose(r,s)}."
 
-def four():
-    pass
+def three(r):
+    return f"3.) R^2 = {compose(r,r)}."
 
 if __name__ == "__main__":
     main()

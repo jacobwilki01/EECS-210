@@ -1,4 +1,45 @@
-#Programming Assignment #3
+'''
+Code Name: EECS 210 - Programming Assignment #3
+Description: Runs the necessary code for creating relations, modifying them, and finding the characteristics of them.
+
+Programmer: Jacob Wilkus
+Date Created: September 20th, 2022
+
+Preconditions and Postconditions:
+    -main()
+        -Takes in nothing
+        -Calls all of the question functions, and inputs in the relative relations as lists.
+        -Prints their outputs.
+    -operation functions
+        -union(rel1,rel2)
+            -Takes in two relations in the form of lists
+            -Appends all of their entries into a new list, then turns that list into a set to remove redundant values.
+            -Then returns the set as a list using python's built-in sorted() function
+        -intersect(rel1,rel2)
+            -Takes in two relations in the form of lists
+            -Iterates over the first relation, then for each iteration, iterates over the second.
+            -Appends values to a new list for each iteration if the value in the first relation is equal to that in the second.
+            -Returns that list.
+        -diff(rel1,rel2)
+            -Takes in two relations in the form of lists
+            -Iterates over the first relation, and appends them all to a new list.
+            -Then does nested iteration over both relations, and removes values from the new list if they exist in both relation 1 and 2.
+            -Returns that list.
+        -compose(rel1,rel2)
+            -Takes in two relatons in the form of lists
+            -Does nested iteration over both, and if the 'y' value of a given ordered pair in the first relation is the same as an 'x' value in a given ordered pair of the second, 
+             it then appends to a new list an ordered pair containing the 'x' of the first relation's pair and the 'y' value of the second relation's pair.
+            -returns that list
+        -ordered_pair(set)
+            -Takes in a set in the form of a list.
+            -Iterates over each value in it, and then iterates a second time. If the two relevant values are the same, it appends them in the form of an ordered pair to a new list.
+            -Returns that new list.
+        -reflex(set, relation)
+        -symmetric(relation)
+        -antisymmetric(relation)
+        -transitive(relation)
+    -question functions: one_a(r1,r2), one_b(r1,r2), one_cr1,r2), one_d(r1,r2), two(r,s), three(r), four_a(set), four_b(set), four_c(set), four_d(set)
+'''
 
 def main():
     r1, r2 = [(1,1),(2,2),(3,3)], [(1,1),(1,2),(1,3),(1,4)]
@@ -21,11 +62,11 @@ def main():
 def union(rel1,rel2):
     result = []
     for x in rel1:
+        result.append(x)
         for y in rel2:
-            result.append(x)
             result.append(y)
     
-    return f"{sorted(set(result))}"
+    return sorted(set(result))
 
 def intersect(rel1,rel2):
     result = []
@@ -34,7 +75,7 @@ def intersect(rel1,rel2):
             if x == y:
                 result.append(x)
     
-    return f"{result}"
+    return result
 
 def diff(rel1,rel2):
     result = []
@@ -46,7 +87,7 @@ def diff(rel1,rel2):
             if x == y:
                 result.remove(x)
     
-    return f"{result}"
+    return result
 
 def compose(rel1,rel2):
     result = []
@@ -55,7 +96,7 @@ def compose(rel1,rel2):
             if x[1] == y[0]:
                 result.append((x[0],y[1]))
 
-    return f"{result}"
+    return result
 
 def ordered_pair(set):
     result = []
@@ -133,7 +174,7 @@ def transitive(relation):
             break
     
     if check:
-        return f"not transitive because of {error3} does not exist to satisfy {error1} and {error2}"
+        return f"not transitive because {error3} does not exist to satisfy {error1} and {error2}"
     else:
         return f"transitive for all values in the set"
 

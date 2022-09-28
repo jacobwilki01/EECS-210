@@ -129,130 +129,156 @@ def compose(rel1,rel2):
 
     return result #returns the list
 
+#Code the ordered_pair() function.
 def ordered_pair(set):
-    result = []
-    for x in set:
+    result = [] #creates a blank list to hold results.
+    for x in set: #iterates over the set twice
         for y in set:
-            if x + y == 0:
+            if x + y == 0: #if each iteration value equals itself, it appends it to the new list.
                 result.append((x,y))
     
-    return result
+    return result #returns that list.
 
+#Code for the reflex() function.
 def reflex(set, relation):
-    check = True
+    #creates two new variables that are used to determine if the result is True.
+    check = True 
     error = None
+
+    #iterates over both the set and relation
     for num in set:
         for pair in relation:
-            if pair[0] != num or pair[1] != num:
-                check = False
-                error = pair
-                break
+            #checks if the each value of each ordered pair are both one value in the set. if they are not the same, it runs the following
+            if (pair[0] != num and pair[1] == num) or (pair[1] != num and pair[0] == num): 
+                check = False #turns the boolean above to False
+                error = pair #makes the previously defined 'error' value hold the ordered pair that 'broke' it.
+                break #breaks the relation iteration.
         if not check:
-            break
+            break #breaks the set iteration.
     
+    #determines what string to return. if it is reflexive, check = True. If not, the returned string includes error.
     if not check:
         return f"not reflexive because of {error}"
     else:
         return f"reflexive at all points."
 
+#The code for the symmetric() function.
 def symmetric(relation):
-    error = None
-    for x in range(0,len(relation)):
-        check = False
-        for y in range(0,len(relation)):
-            if relation[x] == (relation[y][1],relation[y][0]):
-                check = True
-        if not check:
+    error = None #creates a None variable that will be filled if the relation is not symmetric.
+    for x in range(0,len(relation)): #iterates over the relation once
+        check = False #for each iteration, it creates a new check variable that starts as False
+        for y in range(0,len(relation)): #iterates over the relation a second time
+            if relation[x] == (relation[y][1],relation[y][0]): #checks if the first ordered pair is the flip of the second
+                check = True #if it is, it changes check to True
+        if not check: #if the flip of a pair does not exist, it breaks the iteration and sets error to the pair that broke.
             error = relation[x]
             break
     
+    #whether or not it is symmetric, it returns a list with that information that is either True or False in index 0, and the error value in index 1 if relevant.
     if not check:
         return [False,error]
     else:
         return [True]
 
+#The code for the antisymmetric() function.
 def antisymmetric(relation):
-    error = None
-    for x in range(0,len(relation)):
-        check = False
-        for y in range(0,len(relation)):
-            if relation[x] != (relation[y][1],relation[y][0]):
-                check = True
-        if not check:
+    error = None #creates a None variable that will be filled if the relation is not symmetric.
+    for x in range(0,len(relation)): #iterates over the relation once
+        check = True #for each iteration, it creates a new check variable that starts as True
+        for y in range(0,len(relation)): #iterates over the relation a second time
+            if relation[x] != (relation[y][1],relation[y][0]): #checks if the first ordered pair is the flip of the second
+                check = False #if it is, it changes check to False
+        if not check: #if it turns out to be False, it sets error to the pair that broke it and breaks the iteration.
             error = relation[x]
             break
     
+    #whether or not it is antisymmetric, it returns a list with that information that is either True or False in index 0, and the error value in index 1 if relevant.
     if not check:
         return [False,error]
     else:
         return [True]
 
+#Code for the transitive() function.
 def transitive(relation):
-    error1, error2, error3 = None, None, None
-    for x in range(0,len(relation)):
-        check = False
-        for y in range(0,len(relation)):
-            if x != y:
-                for z in range(0,len(relation)):
-                    if z != x and z != y:
-                        if relation[z] != (relation[x][0],relation[y][1]):
+    error1, error2, error3 = None, None, None #creates three None variables that, if the relation is not transitive, will refer the three ordered pairs necessary for the relation to be transitive.
+    for x in range(0,len(relation)): #iterates over the relation's indexes
+        check = False #creates a new 'check' variable each iteration
+        for y in range(0,len(relation)): #iterates a second time
+            if x != y: #runs the following only when x and y are not the same
+                for z in range(0,len(relation)): #iterates a third time
+                    if z != x and z != y: #only checks the following if z is not the same as x and y
+                        if relation[z] != (relation[x][0],relation[y][1]): #if there doesn't exist a third pair to satisfy a transitive test, it runs the following
+                            #maps the relevant variables to the ordered pairs and boolean value necessary, then breaks the iteration
                             check = True
                             error1 = relation[x]
                             error2 = relation[y]
                             error3 = (relation[x][0],relation[y][1])
                             break
-        if check:
+        if check: #if check comes out as True, it breaks the top iteration.
             break
     
+    #based on whether or not it is True, it returns a string with the relevant information.
     if check:
         return f"not transitive because {error3} does not exist to satisfy {error1} and {error2}"
     else:
         return f"transitive for all values in the set"
 
-def one_a(r1,r2):
+#Code for the one_a() function. Simply calls union() and returns a string to be printed.
+def one_a(r1,r2): 
     return f"1a.) R1 ∪ R2 = {union(r1,r2)}."
 
+#Code for the one_b() function. Simply calls intersect() and returns a string to be printed.
 def one_b(r1,r2):
     return f"1b.) R1 ∩ R2 = {intersect(r1,r2)}."
 
+#Code for the one_c() function. Simply calls diff() and returns a string to be printed.
 def one_c(r1,r2):
     return f"1c.) R1 − R2 = {diff(r1,r2)}."
 
+#Code for the one_d() function. Simply calls diff() and returns a string to be printed. Unlike one_c(), it flips the order of r1 and r2 in diff() as per the questio requirements
 def one_d(r1,r2):
     return f"1d.) R2 − R1 = {diff(r2,r1)}."
 
+#Code for the two() function. Simply calls compose() and returns a string to be printed.
 def two(r,s):
     return f"2.) S ◦ R = {compose(r,s)}."
 
+#Code for the three() function. Simply calls compose() and returns a string to be printed.
 def three(r):
     return f"3.) R^2 = {compose(r,r)}."
 
+#Code for the four_a() function. Simply calls ordered_pair() and returns a string to be printed.
 def four_a(set):
     return f"4a.) R has the following set of ordered pairs: {ordered_pair(set)}."
 
+#Code for the four_a() function. Simply calls reflex() and returns a string to be printed.
 def four_b(set):
     return f"4b.) R is {reflex(set,ordered_pair(set))}."
 
+#Code for the four_c() function. Simply calls symmetric() on the ordered_pair() of the given set and returns a certain string based on it's result.
 def four_c(set):
     result = symmetric(ordered_pair(set))
-    if result[0]:
+    if result[0]: #from the return of symmetric, 
         return f"4c.) R is symmetric for all values in the set."
     else:
         return f"4c.) R is not symmetric because of {result[1]}."
 
+#Code for the four_d() function.
 def four_d(set):
-    result = symmetric(ordered_pair(set))
+    result = symmetric(ordered_pair(set)) #first calls symmetric, because if the set is symmetric it cannot be antisymmetric
     if result[0]:
         return f"4d.) R is not antisymmetric because R is symmetric."
-    else:
-        result2 = antisymmetric()
+    else: #if it is not symmetric, it then checks if it is antisymmetric by calling antisymmetric(), and returns the relevant string to be printed.
+        result2 = antisymmetric(ordered_pair(set))
         if result2[0]:
             return f"R is antisymmetric for all values in the set."
         else:
             return f"R is not antisymmetric because of {result2[1]}."
 
+#Code for the four_a() function. Simply calls transitive() on the ordered_pair() of the given set and returns a string to be printed.
 def four_e(set):
     return f"4e.) R is {transitive(ordered_pair(set))}."
 
+#The default python syntax for making sure main() is called.
 if __name__ == "__main__":
     main()

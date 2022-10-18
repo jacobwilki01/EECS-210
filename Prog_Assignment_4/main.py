@@ -49,17 +49,21 @@ def main():
     print(three(r5)) #three_d
     print(three(r6)) #three_e
 
-    #The relevant code for answering #4 and #5. Creates two new relations and two new sets as lists to be used.
-    r7, s3 = [(1,1), (1,2), (2,2), (3,3), (4,1), (4,2), (4,4)], [1, 2, 3, 4]
-    r8, s4 = [(0, 0), (0, 1), (0, 2), (0, 3), (1,0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 2), (3, 3)], [0, 1, 2, 3]
+    #The relevant code for answering #4. Creates two relations and sets as lists.
+    r7, s3 = [(1,1),(2,2),(2,3)], [1,2,3]
+    r8, s4 = [('a','a'),('b','b'),('c','c'),('b','c'),('c','b')], ['a','b','c']
 
     #The relevant code for calling four(relation,set) for each inquirt and printing the result.
     print(four(r7,s3)) #four_d
     print(four(r8,s4)) #four_e
 
+    #The relevant code for answering #4 and #5. Creates two new relations and two new sets as lists to be used.
+    r9, s5 = [(1,1), (1,2), (2,2), (3,3), (4,1), (4,2), (4,4)], [1, 2, 3, 4]
+    r10, s6 = [(0, 0), (0, 1), (0, 2), (0, 3), (1,0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 2), (3, 3)], [0, 1, 2, 3]
+
     #The relevant code for calling five(relation,set) for each inquiry and printing the result.
-    print(five(r7,s3)) #five_e
-    print(five(r8,s4)) #five_f
+    print(five(r9,s5)) #five_e
+    print(five(r10,s6)) #five_f
 
 #Code for reflexive(relation,set). Takes in two lists.
 def reflexive(relation,set):

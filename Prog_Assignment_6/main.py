@@ -3,11 +3,22 @@ from puzzle import *
 def main():
     files = ["puzzle1.txt","puzzle2.txt","puzzle3.txt","puzzle4.txt","puzzle5.txt"]
     for x in range(0,len(files)):
-        print(f"Processing {files[x]}")
+        print(f"\nProcessing {files[x]}")
         puzzle = create_puzzle(files[x])
         solution = solve_puzzle(puzzle)
         if not solution[0]:
             print("No solution found!")
+        for row in solution[1].rows:
+            for cell in row.cells:
+                print("_" if cell.is_empty else cell.value, end=" ")
+            print()
+        for row in solution[1].rows:
+            for cell in row.cells:
+                if cell.is_empty:
+                    print("No solution found because the cell at row " + str(cell.row_index + 1) + ", column " + str(cell.column_index + 1) + " has no possible values.")
+                    break
+            if cell.is_empty:
+                break
         solution_to_file(solution[1],f"solution{x + 1}.txt")
         add_message(solution,f"solution{x + 1}.txt")
 

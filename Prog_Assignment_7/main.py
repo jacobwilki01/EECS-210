@@ -94,10 +94,14 @@ def indist_indist(objects,boxes):
 
 #Main Function. Prints the results.
 def main():
-    print("1.) There are",dist_dist(52,4,5),"ways to distribute 40 objects into 4 boxes with 10 objects in each box.")
-    print("2.) There are", indist_dist(12,6), "ways to distribute 12 indistinguishable objects into 6 distinguishable boxes")
-    print("3.) There are", dist_indist(5,4), "ways to distribute 5 distinguishable objects into 4 indistinguishable boxes")
-    print("4.) There are", indist_indist(5,3),"ways to distribute 5 indistinguishable objects into 3 indistinguishable boxes")
+    print("1a.) There are",dist_dist(52,4,5), "ways to distribute 52 distinguishable objects into 4 distinguishable boxes with 5 objects in each box.")
+    print(" b.) There are", dist_dist(40,4,10),"ways to distribute 40 objects into 4 boxes with 10 objects in each box.")
+    print("2a.) There are", indist_dist(10,8), "ways to distribute 10 indistinguishable objects into 8 distinguishable boxes.")
+    print(" b.) There are", indist_dist(12,6), "ways to distribute 12 indistinguishable objects into 6 distinguishable boxes")
+    print("3a.) There are", dist_indist(4,3), "ways to distribute 4 distinguishable objects into 3 indistinguishable boxes.")
+    print(" b.) There are", dist_indist(5,4), "ways to distribute 5 distinguishable objects into 4 indistinguishable boxes")
+    print("4a.) There are", indist_indist(6,4), "ways to distribute 6 indistinguishable objects into 4 indistinguishable boxes.")
+    print(" b.) There are", indist_indist(5,3),"ways to distribute 5 indistinguishable objects into 3 indistinguishable boxes")
 
 if __name__ == "__main__":
     main()

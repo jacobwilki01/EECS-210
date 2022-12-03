@@ -1,8 +1,9 @@
 class Graph:
-    def __init__(self, edges):
+    def __init__(self, edges, name=""):
         self.vertices = []
         self.edges = []
         self.circuit = []
+        self.name = name
 
         #Clean up vertices
         for edge in edges:
@@ -35,9 +36,6 @@ class Graph:
                 elif vertex == edge.pair[1]:
                     vertex.neighbors.append(edge.pair[0])
                     vertex.degree += 1
-        
-        #Clean up Circuit
-        self.circuit.append(self.vertices[0])
     
     def has_eulerian_circuit(self):
         for vertex in self.vertices:
@@ -46,12 +44,16 @@ class Graph:
         return True
     
     def find_eulerian_circuit(self, vertex):
+        for vert in self.vertices:
+            if vertex == vert:
+                self.circuit.append(vert)
+                self.vertices.remove(vert)
+                break
+        
         for neighbor in vertex.neighbors:
-            if not (vertex, neighbor) in self.edges:
-                continue
-            self.edges.remove((vertex, neighbor))
-            self.find_eulerian_circuit(self, neighbor)
-        self.circuit.append(vertex)
+            if neighbor in self.vertices:
+                self.find_eulerian_circuit(neighbor)
+                break
     
     def circ_to_str(self):
         cric_to_str = ""
